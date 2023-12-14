@@ -20,6 +20,8 @@ const upload = multer({ storage: storage });
 
 const mediaController = require("../app/controllers/MediaController");
 
+router.get("/", mediaController.index);
 router.post("/", upload.array("files"), mediaController.store);
+router.delete("/:id", mediaController.delete);
 
 module.exports = router;
