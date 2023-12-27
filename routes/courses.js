@@ -1,9 +1,13 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-/* GET course listing. */
-router.get("/", function (req, res, next) {
-    res.send("respond with a resource");
-});
+const courseController = require("../app/controllers/CourseController");
+
+const auth = require("../app/middlewares/AuthMiddleware");
+
+router.get("/", courseController.index);
+router.post("/", auth, courseController.store);
+router.get("/:id", courseController.show);
+router.patch("/:id", auth, courseController.update);
 
 module.exports = router;
