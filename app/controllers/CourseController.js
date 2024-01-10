@@ -82,6 +82,8 @@ const courseController = {
                 });
             }
 
+            req.body.mentor_user_id = currentUser.id;
+
             const courseUpdate = await api.patch(`/courses/${course.data.data.id}`, req.body);
 
             return res.json(courseUpdate.data);
