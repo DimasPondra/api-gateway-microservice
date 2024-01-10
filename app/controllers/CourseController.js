@@ -74,18 +74,17 @@ const courseController = {
             });
 
             const courseMentorID = course.data.data.mentor.id;
-            if (req.user.role !== "mentor" && req.user.role !== "admin") {
-                return res.status(401).json({
+
+            if (currentUser.id !== courseMentorID) {
+                return res.status(403).json({
                     status: "error",
-                    message: "Unauthorized, only mentor or admin can access.",
+                    message: "Forbidden, access denied.",
                 });
             }
-            // const course = await api.post("/courses", req.body);
-            return res.json({
-                user: currentUser,
-                course: course.data.data,
-                mentor_id: courseMentorID,
-            });
+
+            const courseUpdate = await api.patch(`/courses/${course.data.data.id}`, req.body);
+
+            return res.json(courseUpdate.data);
         } catch (err) {
             if (err.code == "ECONNREFUSED") {
                 return res.status(500).json({
