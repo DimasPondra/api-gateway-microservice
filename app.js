@@ -9,6 +9,7 @@ const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users");
 const mediaRouter = require("./routes/media");
 const coursesRouter = require("./routes/courses");
+const chaptersRouter = require("./routes/chapters");
 const ordersRouter = require("./routes/orders");
 const paymentsRouter = require("./routes/payments");
 
@@ -25,6 +26,7 @@ app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/media", mediaRouter);
 app.use("/courses", coursesRouter);
+app.use("/chapters", chaptersRouter);
 app.use("/orders", ordersRouter);
 app.use("/payments", paymentsRouter);
 
