@@ -12,6 +12,7 @@ const coursesRouter = require("./routes/courses");
 const chaptersRouter = require("./routes/chapters");
 const lessonsRouter = require("./routes/lessons");
 const courseImagesRouter = require("./routes/course-images");
+const myCoursesRouter = require("./routes/my-courses");
 const ordersRouter = require("./routes/orders");
 const paymentsRouter = require("./routes/payments");
 
@@ -31,6 +32,7 @@ app.use("/courses", coursesRouter);
 app.use("/chapters", chaptersRouter);
 app.use("/lessons", lessonsRouter);
 app.use("/course-images", courseImagesRouter);
+app.use("/my-courses", myCoursesRouter);
 app.use("/orders", ordersRouter);
 app.use("/payments", paymentsRouter);
 
