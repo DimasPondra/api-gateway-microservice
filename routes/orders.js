@@ -1,9 +1,10 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-/* GET order listing. */
-router.get("/", function (req, res, next) {
-    res.send("respond with a resource");
-});
+const orderController = require("../app/controllers/OrderController");
+
+const auth = require("../app/middlewares/AuthMiddleware");
+
+router.post("/", auth, orderController.joinCourse);
 
 module.exports = router;
