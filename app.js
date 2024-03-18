@@ -17,7 +17,10 @@ const reviewsRouter = require("./routes/reviews");
 const ordersRouter = require("./routes/orders");
 const paymentsRouter = require("./routes/payments");
 
+const cors = require("cors");
 const app = express();
+
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
