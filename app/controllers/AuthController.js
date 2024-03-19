@@ -72,7 +72,14 @@ const authController = {
 
             const blacklistToken = await api.post("/blacklist-tokens", body);
 
-            return res.json(blacklistToken.data);
+            if (blacklistToken.status == 200) {
+                return res.json({
+                    status: "success",
+                    message: "You have successfully logged out.",
+                });
+            } else {
+                return res.json(blacklistToken.data);
+            }
         } catch (err) {
             if (err.code == "ECONNREFUSED") {
                 return res.status(500).json({
