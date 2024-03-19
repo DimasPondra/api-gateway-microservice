@@ -5,7 +5,7 @@ const formatHelpers = {
         const year = generate.getFullYear().toString();
         let month = (generate.getMonth() + 1).toString();
         const date = generate.getDate().toString();
-        const time = generate.toLocaleTimeString();
+        const time = generate.toLocaleTimeString(undefined, { hour12: false });
 
         if (month !== "10" && month !== "11" && month !== "12") {
             month = "0" + month;
