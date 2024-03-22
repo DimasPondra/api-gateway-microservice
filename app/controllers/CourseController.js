@@ -25,9 +25,9 @@ const courseController = {
     store: async (req, res) => {
         try {
             if (req.user.role !== "mentor" && req.user.role !== "admin") {
-                return res.status(401).json({
+                return res.status(403).json({
                     status: "error",
-                    message: "Unauthorized, only mentor or admin can access.",
+                    message: "Forbidden, only mentor or admin can access.",
                 });
             }
 
