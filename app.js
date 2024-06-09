@@ -18,6 +18,16 @@ const ordersRouter = require("./routes/orders");
 const paymentsRouter = require("./routes/payments");
 
 const cors = require("cors");
+
+/** Swagger */
+const fs = require("fs");
+const YAML = require("yaml");
+
+const file = fs.readFileSync('./swagger.yaml', 'utf8');
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = YAML.parse(file);
+
 const app = express();
 
 app.use(cors());
@@ -27,6 +37,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);

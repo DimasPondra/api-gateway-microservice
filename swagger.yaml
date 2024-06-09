@@ -1,0 +1,1826 @@
+openapi: 3.0.0
+info:
+  title: Contoh Microservice API
+  version: 1.0.0
+  description: Ini adalah contoh dokumentasi untuk API microservice.
+  contact:
+    email: dimaspondrao@gmail.com
+    name: Dimas Pondra Oktafianto
+    url: https://dimasoktafianto.my.id
+servers:
+  - url: https://microservice.dimasoktafianto.my.id
+    variables: {}
+    description: Server Production
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Register:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Dimas Pondra
+        occupation:
+          type: string
+          example: Developer
+        email:
+          type: string
+          format: email
+          example: dimaspondra@mail.com
+        password:
+          type: string
+          example: secret
+        avatar_file_id:
+          type: integer
+      required:
+        - name
+        - email
+        - password
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Admin
+        occupation:
+          type: string
+          example: Admin Micro
+        email:
+          type: string
+          example: admin@mail.com
+        role:
+          type: string
+          example: admin
+        url:
+          type: string
+          example: >-
+            https://service-media.dimasoktafianto.my.id/uploads/avatars/1702542083364.png
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 78
+        url:
+          type: string
+          example: >-
+            https://service-media.dimasoktafianto.my.id/uploads/avatars/1702542083364.png
+  responses:
+    401Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              message:
+                type: string
+                example: Unauthorized, token is invalid.
+    403Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              message:
+                type: string
+                example: Forbidden, access denied.
+    422Chapter:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: The name field is required. (and 1 more errors).
+              errors:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      example: The name field is required.
+                  course_id:
+                    type: array
+                    items:
+                      example: The course id field is required.
+    422Lesson:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: The name field is required. (and 1 more errors).
+              errors:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      example: The name field is required.
+                  video_file_id:
+                    type: array
+                    items:
+                      example: The video file id field is required.
+    422CourseImage:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: The file id field is required.
+              errors:
+                type: object
+                properties:
+                  file_id:
+                    type: array
+                    items:
+                      example: The file id field is required.
+    422MyCourse:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: The course id field is required.
+              errors:
+                type: object
+                properties:
+                  course_id:
+                    type: array
+                    items:
+                      example: The course id field is required.
+    502BadGateway:
+      description: Bad Gateway
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              message:
+                type: string
+                example: Incomplete response received from application
+  parameters:
+    paramCourseID:
+      name: courseId
+      in: path
+      description: course ID to return
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 3
+    paramChapterID:
+      name: chapterId
+      in: path
+      description: chapter ID to return
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 1
+    paramLessonID:
+      name: lessonId
+      in: path
+      description: lesson ID to return
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 1
+    paramReviewID:
+      name: reviewId
+      in: path
+      description: review ID to return
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 1
+    perPage:
+      name: per_page
+      in: query
+      description: With pagination (per_page = amount of data displayed on the page)
+      required: false
+      schema:
+        type: integer
+        default: 10
+        example: 10
+    currentPage:
+      name: page
+      in: query
+      description: Page number if using per_page
+      required: false
+      schema:
+        type: integer
+        default: 1
+        example: 1
+  requestBodies:
+    requestBodyChapter:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Tag pada HTML
+        course_id:
+          type: integer
+          example: 1
+      required:
+        - name
+        - course_id
+    requestBodyLesson:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Apa itu HTML
+        video_file_id:
+          type: integer
+          example: 78
+        chapter_id:
+          type: integer
+          example: 1
+      required:
+        - name
+        - video_file_id
+        - chapter_id
+    requestBodyCourseImage:
+      type: object
+      properties:
+        file_id:
+          type: integer
+          example: 1
+        course_id:
+          type: integer
+          example: 1
+      required:
+        - file_id
+        - course_id
+    requestBodyMyCourse:
+      type: object
+      properties:
+        course_id:
+          type: integer
+          example: 1
+      required:
+        - course_id
+paths:
+  /:
+    summary: home
+    get:
+      summary: home screen
+      description: ''
+      operationId: ''
+      responses:
+        default:
+          description: Default error sample response
+      tags: 
+        - Home
+  /auth/register:
+    summary: Register New Account
+    post:
+      summary: Register New Account
+      description: Sending requests to register a new account.
+      operationId: registerNewAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User successfully registered.
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Unprocessable Entity.
+                  errors:
+                    type: array
+                    items:
+                      properties:
+                        message:
+                          type: string
+                          example: Email is already in use.
+        '502':
+          $ref: '#/components/responses/502BadGateway'
+      tags:
+        - Auth
+  /auth/login:
+    summary: Login
+    post:
+      summary: Login
+      description: Sending requests to login.
+      operationId: loginAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: dimaspondra@mail.com
+                password:
+                  type: string
+                  example: secret
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User successfully logged In.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 10
+                      token:
+                        type: string
+                        example: >-
+                          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInJvbGUiOiJtZW50b3IiLCJpYXQiOjE3MTA3NDI5OTMsImV4cCI6MTcxMTM0Nzc5M30._1J6L5UaN1Q8Nb5mUV6MTpr9pI0V2ehvYLFbVvzZKmE
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Unprocessable Entity.
+                  errors:
+                    type: array
+                    items:
+                      properties:
+                        message:
+                          type: string
+                          example: Email is required.
+      tags:
+        - Auth
+  /auth/logout:
+    summary: Logout
+    post:
+      summary: Logout
+      description: |
+        Logout
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
+      operationId: logoutAccount
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: You have successfully logged out.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+      tags:
+        - Auth
+  /users:
+    summary: List users
+    get:
+      summary: List users
+      description: |
+        Get all data of users
+
+        This endpoint can be accessed when the role is admin.
+      operationId: getUsers
+      parameters:
+        - name: user_ids
+          in: query
+          description: Filter data based on multiple user IDs
+          required: false
+          schema:
+            type: string
+            default: 1,2,3
+            example: 1,2,3
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully load data.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+      tags:
+        - User
+  /users/profile:
+    summary: Profile User
+    get:
+      summary: Profile
+      description: Get data profile user.
+      operationId: getUserProfile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully get data.
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+      tags:
+        - User
+    patch:
+      summary: Update Profile
+      description: Update data profile user.
+      operationId: updateUserProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Dimas Pondra
+                occupation:
+                  type: string
+                  example: Developer
+                email:
+                  type: string
+                  format: email
+                  example: dimaspondra@mail.com
+                password:
+                  type: string
+                  example: secret
+                avatar_file_id:
+                  type: integer
+              required:
+                - name
+                - email
+                - password
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User successfully updated.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Unprocessable Entity.
+                  errors:
+                    type: array
+                    items:
+                      oneOf:
+                        - type: object
+                          properties:
+                            message:
+                              type: string
+                              example: Name is required.
+                        - type: object
+                          properties:
+                            message:
+                              type: string
+                              example: Email is required.
+                        - type: object
+                          properties:
+                            message:
+                              type: string
+                              example: Password is required.
+      tags:
+        - User
+  /media:
+    summary: Media Endpoint
+    get:
+      summary: All Media
+      description: Get all data of media
+      operationId: getMedia
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully load data.
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/File'
+                        - $ref: '#/components/schemas/File'
+      tags:
+        - Media
+    post:
+      summary: Upload File
+      description: Upload multiple files
+      operationId: postMedia
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: string
+                  format: binary
+                  example: null
+                directory:
+                  type: string
+                  example: courses
+              required:
+                - files
+                - directory
+      responses:
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Unprocessable Entity.
+                  errors:
+                    type: array
+                    items:
+                      oneOf:
+                        - type: object
+                          properties:
+                            message:
+                              type: string
+                              example: Files is required.
+                        - type: object
+                          properties:
+                            message:
+                              type: string
+                              example: Directory is required.
+      tags:
+        - Media
+  /courses:
+    summary: Courses
+    get:
+      summary: List courses
+      description: Get all data of courses
+      operationId: getCourses
+      parameters:
+        - name: name
+          in: query
+          description: Filter data by name
+          required: false
+          schema:
+            type: string
+            default: course name
+            example: kelas
+        - name: status
+          in: query
+          description: Filter data by course status
+          required: false
+          schema:
+            type: string
+            default: draft
+            enum:
+              - draft
+              - published
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/currentPage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully load data.
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: Basic HTML and CSS
+                            slug:
+                              type: string
+                              example: basic-html-and-css
+                            type:
+                              type: string
+                              example: free
+                            level:
+                              type: string
+                              example: all-level
+                            price:
+                              type: string
+                              example: '11000.00'
+                            thumbnail_url:
+                              type: string
+                              example: >-
+                                https://service-media.dimasoktafianto.my.id/uploads/avatars/1702542083364.png
+      tags:
+        - Course
+    post:
+      summary: Create course
+      description: Create new course
+      operationId: postCourse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Web Travel - Laravel 10
+                description:
+                  type: string
+                  example: >-
+                    Vulputate nunc netus luctus neque euismod justo tristique
+                    mollis, risus est mauris dis porta aliquam parturient, eu
+                    cum id placerat fermentum habitant litora. Nisl aliquet
+                    porttitor dapibus taciti volutpat parturient purus eleifend.
+                type:
+                  type: string
+                  example: free
+                  enum:
+                    - free
+                    - premium
+                certificate:
+                  type: boolean
+                  example: true
+                level:
+                  type: string
+                  example: all-level
+                  enum:
+                    - all-level
+                    - beginner
+                    - intermediate
+                    - advance
+                status:
+                  type: string
+                  example: draft
+                  enum:
+                    - draft
+                    - published
+                price:
+                  type: integer
+                  example: 0
+                thumbnail_file_id:
+                  type: integer
+                  example: 79
+                mentor_user_id:
+                  type: integer
+                  example: 10
+              required:
+                - name
+                - type
+                - certificate
+                - level
+                - status
+                - price
+                - thumbnail_file_id
+                - mentor_user_id
+      security:
+        - bearerAuth: []
+      responses:
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: The name field is required. (and 7 more errors).
+                  errors:
+                    type: object
+                    properties:
+                      name:
+                        type: array
+                        items:
+                          example: The name field is required.
+                      type:
+                        type: array
+                        items:
+                          example: The type field is required.
+                      certificate:
+                        type: array
+                        items:
+                          example: The certificate field is required.
+                      level:
+                        type: array
+                        items:
+                          example: The level field is required.
+                      status:
+                        type: array
+                        items:
+                          example: The status field is required.
+                      price:
+                        type: array
+                        items:
+                          example: The price field is required.
+                      thumbnail_file_id:
+                        type: array
+                        items:
+                          example: The thumbnail file id field is required.
+                      mentor_user_id:
+                        type: array
+                        items:
+                          example: The mentor user id field is required.
+      tags:
+        - Course
+  /courses/{courseId}:
+    summary: Course
+    get:
+      summary: Get course
+      description: Get a single course by ID
+      operationId: getCourse
+      parameters:
+        - $ref: '#/components/parameters/paramCourseID'
+        - name: include
+          in: query
+          description: Adding data relations (using comma separator)
+          required: false
+          schema:
+            type: string
+            default: mentor,reviews
+            example: mentor,chapters,lessons,images,reviews
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully get data.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 3
+                      name:
+                        type: string
+                        example: Web Travel - Laravel 10
+                      description:
+                        type: string
+                        example: >-
+                          Vulputate nunc netus luctus neque euismod justo
+                          tristique mollis, risus est mauris dis porta aliquam
+                          parturient, eu cum id placerat fermentum habitant
+                          litora. Nisl aliquet porttitor dapibus taciti volutpat
+                          parturient purus eleifend.
+                      type:
+                        type: string
+                        example: premium
+                      certificate:
+                        type: string
+                        example: available
+                      level:
+                        type: string
+                        example: all-level
+                      status:
+                        type: string
+                        example: draft
+                      price:
+                        type: string
+                        example: '99000.00'
+                      thumbnail_url:
+                        type: string
+                        example: >-
+                          https://service-media.dimasoktafianto.my.id/uploads/courses/1703662536541.jpg
+                      total_students:
+                        type: integer
+                        example: 1
+                      total_videos:
+                        type: integer
+                        example: 0
+      tags:
+        - Course
+    patch:
+      summary: Update course
+      description: Update data course
+      operationId: updateCourse
+      parameters:
+        - $ref: '#/components/parameters/paramCourseID'
+        - name: include
+          in: query
+          description: Adding data relation
+          required: true
+          schema:
+            type: string
+            default: mentor
+            example: mentor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Web Travel - Laravel 10
+                description:
+                  type: string
+                  example: >-
+                    Vulputate nunc netus luctus neque euismod justo tristique
+                    mollis, risus est mauris dis porta aliquam parturient, eu
+                    cum id placerat fermentum habitant litora. Nisl aliquet
+                    porttitor dapibus taciti volutpat parturient purus eleifend.
+                type:
+                  type: string
+                  example: free
+                  enum:
+                    - free
+                    - premium
+                certificate:
+                  type: boolean
+                  example: true
+                level:
+                  type: string
+                  example: all-level
+                  enum:
+                    - all-level
+                    - beginner
+                    - intermediate
+                    - advance
+                status:
+                  type: string
+                  example: draft
+                  enum:
+                    - draft
+                    - published
+                price:
+                  type: integer
+                  example: 0
+                thumbnail_file_id:
+                  type: integer
+                  example: 79
+              required:
+                - name
+                - type
+                - certificate
+                - level
+                - status
+                - price
+                - thumbnail_file_id
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Course successfully updated.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: The name field is required. (and 6 more errors).
+                  errors:
+                    type: object
+                    properties:
+                      name:
+                        type: array
+                        items:
+                          example: The name field is required.
+                      type:
+                        type: array
+                        items:
+                          example: The type field is required.
+                      certificate:
+                        type: array
+                        items:
+                          example: The certificate field is required.
+                      level:
+                        type: array
+                        items:
+                          example: The level field is required.
+                      status:
+                        type: array
+                        items:
+                          example: The status field is required.
+                      price:
+                        type: array
+                        items:
+                          example: The price field is required.
+                      thumbnail_file_id:
+                        type: array
+                        items:
+                          example: The thumbnail file id field is required.
+        '502':
+          $ref: '#/components/responses/502BadGateway'
+      tags:
+        - Course
+  /chapters:
+    summary: Chapters
+    get:
+      summary: List chapters
+      description: Get all data of chapters
+      operationId: getChapters
+      parameters:
+        - name: include
+          in: query
+          description: Adding data relations
+          required: true
+          schema:
+            type: string
+            default: course,lessons
+            example: course,lessons
+        - name: course_id
+          in: query
+          description: Filter data by course ID
+          required: false
+          schema:
+            type: string
+            default: id of course (1)
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully load data.
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: Pengenalan HTML
+                            slug:
+                              type: string
+                              example: pengenalan-html
+      tags:
+        - Chapter
+    post:
+      summary: Create chapter
+      description: Create new chapter
+      operationId: postChapter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/requestBodyChapter'
+      security:
+        - bearerAuth: []
+      responses:
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          $ref: '#/components/responses/422Chapter'
+      tags:
+        - Chapter
+  /chapters/{chapterId}:
+    summary: Chapter
+    get:
+      summary: Get chapter
+      description: Get a single chapter by ID
+      operationId: getChapter
+      parameters:
+        - $ref: '#/components/parameters/paramChapterID'
+        - name: include
+          in: query
+          description: Adding data relations (using comma separator)
+          required: false
+          schema:
+            type: string
+            default: course,lessons
+            example: mentor,chapters,lessons,images,reviews
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully get data.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Pengenalan HTML
+      tags:
+        - Chapter
+    patch:
+      summary: Update chapter
+      description: Update data chapter
+      operationId: updateChapter
+      parameters:
+        - $ref: '#/components/parameters/paramChapterID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/requestBodyChapter'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Chapter successfully updated.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          $ref: '#/components/responses/422Chapter'
+        '502':
+          $ref: '#/components/responses/502BadGateway'
+      tags:
+        - Chapter
+    delete:
+      summary: Delete chapter
+      description: Delete data chapter
+      operationId: deleteChapter
+      parameters:
+        - $ref: '#/components/parameters/paramChapterID'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Chapter successfully deleted.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+      tags:
+        - Chapter
+  /lessons:
+    summary: Lessons
+    get:
+      summary: List lessons
+      description: Get all data of lessons
+      operationId: getLessons
+      parameters:
+        - name: include
+          in: query
+          description: Adding data relations
+          required: true
+          schema:
+            type: string
+            default: chapter
+            example: chapter,course
+        - name: chapter_id
+          in: query
+          description: Filter data by chapter ID
+          required: false
+          schema:
+            type: string
+            default: id of chapter (1)
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully load data.
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: Mengenal Tag pada HTML
+                            slug:
+                              type: string
+                              example: mengenal-tag-pada-html
+                            video_url:
+                              type: string
+                              example: >-
+                                https://service-media.dimasoktafianto.my.id/uploads/avatars/1702542083364.png
+      tags:
+        - Lesson
+    post:
+      summary: Create lesson
+      description: Create new lesson
+      operationId: postLesson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/requestBodyLesson'
+      security:
+        - bearerAuth: []
+      responses:
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          $ref: '#/components/responses/422Lesson'
+      tags:
+        - Lesson
+  /lessons/{lessonId}:
+    summary: Lesson
+    get:
+      summary: Get lesson
+      description: Get a single lesson by ID
+      operationId: getLesson
+      parameters:
+        - $ref: '#/components/parameters/paramLessonID'
+        - name: include
+          in: query
+          description: Adding data relations (using comma separator)
+          required: false
+          schema:
+            type: string
+            default: chapter
+            example: chapter,course
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully get data.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Apa itu HTML
+                      video_url:
+                        type: string
+                        example: >-
+                          https://service-media.dimasoktafianto.my.id/uploads/avatars/1702542083364.png
+      tags:
+        - Lesson
+    patch:
+      summary: Update lesson
+      description: Update data lesson
+      operationId: updateLesson
+      parameters:
+        - $ref: '#/components/parameters/paramLessonID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/requestBodyLesson'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Lesson successfully updated.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          $ref: '#/components/responses/422Lesson'
+        '502':
+          $ref: '#/components/responses/502BadGateway'
+      tags:
+        - Lesson
+    delete:
+      summary: Delete lesson
+      description: Delete data lesson
+      operationId: deleteLesson
+      parameters:
+        - $ref: '#/components/parameters/paramLessonID'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Lesson successfully deleted.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+      tags:
+        - Lesson
+  /course-images:
+    summary: Course image
+    post:
+      summary: Create course image
+      description: Create new course image
+      operationId: postCourseImage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/requestBodyCourseImage'
+      security:
+        - bearerAuth: []
+      responses:
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          $ref: '#/components/responses/422CourseImage'
+      tags:
+        - Course Image
+  /course-images/{courseImageId}:
+    summary: Course image
+    delete:
+      summary: Delete course image
+      description: Delete data course image
+      operationId: deleteCourseImage
+      parameters:
+        - name: courseImageId
+          in: path
+          description: course image ID to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Course image successfully deleted.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+      tags:
+        - Course Image
+  /my-courses:
+    summary: My course
+    get:
+      summary: List my courses
+      description: Get all data of my courses
+      operationId: getMyCourses
+      parameters:
+        - name: include
+          in: query
+          description: Adding data relations
+          required: true
+          schema:
+            type: string
+            default: course
+            example: course
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully load data.
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            user:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  example: 3
+                                name:
+                                  type: string
+                                  example: Dimas
+      tags:
+        - My Course
+    post:
+      summary: Create my course
+      description: Create new my course
+      operationId: postMyCourse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/requestBodyMyCourse'
+      security:
+        - bearerAuth: []
+      responses:
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          $ref: '#/components/responses/422MyCourse'
+      tags:
+        - My Course
+  /reviews:
+    summary: Review
+    post:
+      summary: Create review
+      description: Create new review
+      operationId: postReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: integer
+                  example: 1
+                note:
+                  type: string
+                  example: Luar biasaaa.
+                course_id:
+                  type: integer
+                  example: 1
+              required:
+                - rate
+                - course_id
+      security:
+        - bearerAuth: []
+      responses:
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: The rate field is required. (and 1 more error)
+                  errors:
+                    type: object
+                    properties:
+                      rate:
+                        type: array
+                        items:
+                          example: The rate field is required.
+                      course_id:
+                        type: array
+                        items:
+                          example: The course id field is required.
+      tags:
+        - Review
+  /reviews/{reviewId}:
+    summary: Review
+    get:
+      summary: Get review
+      description: Get a single review by ID
+      operationId: getReview
+      parameters:
+        - $ref: '#/components/parameters/paramReviewID'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully get data.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      rate:
+                        type: integer
+                        example: 1
+                      note:
+                        type: string
+                        example: Wah kacau ini.
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 3
+                          name:
+                            type: string
+                            example: name
+      tags:
+        - Review
+    patch:
+      summary: Update review
+      description: Update data review
+      operationId: updateReview
+      parameters:
+        - $ref: '#/components/parameters/paramReviewID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: integer
+                  example: 1
+                note:
+                  type: string
+                  example: Luar biasaaa.
+              required:
+                - rate
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Review successfully updated.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: The rate field is required.
+                  errors:
+                    type: object
+                    properties:
+                      rate:
+                        type: array
+                        items:
+                          example: The rate field is required.
+        '502':
+          $ref: '#/components/responses/502BadGateway'
+      tags:
+        - Review
+    delete:
+      summary: Delete review
+      description: Delete data review
+      operationId: deleteReview
+      parameters:
+        - $ref: '#/components/parameters/paramReviewID'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Review successfully deleted.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+      tags:
+        - Review
+  /orders:
+    summary: Order
+    post:
+      summary: Create order
+      description: Create new order
+      operationId: postOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course_id:
+                  type: integer
+                  example: 1
+              required:
+                - course_id
+      security:
+        - bearerAuth: []
+      responses:
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: The course if field is required.
+                  errors:
+                    type: object
+                    properties:
+                      course_id:
+                        type: array
+                        items:
+                          example: The course id field is required.
+      tags:
+        - Order
+
+
+
+

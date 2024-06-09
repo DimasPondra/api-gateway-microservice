@@ -33,7 +33,7 @@ const myCourseController = {
 
             req.body.user_id = currentUser.id;
 
-            const myCourse = await api.post("/my-courses", req.body);
+            const myCourse = await api.post("/my-courses/store", req.body);
 
             return res.json(myCourse.data);
         } catch (err) {
