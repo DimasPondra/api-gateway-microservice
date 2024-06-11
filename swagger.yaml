@@ -11,6 +11,9 @@ servers:
   - url: https://microservice.dimasoktafianto.my.id
     variables: {}
     description: Server Production
+  - url: http://localhost:3000
+    variables: {}
+    description: Server Local
 components:
   securitySchemes:
     bearerAuth:
@@ -465,6 +468,13 @@ paths:
         Get all data of users
 
         This endpoint can be accessed when the role is admin.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: getUsers
       parameters:
         - name: user_ids
@@ -505,7 +515,15 @@ paths:
     summary: Profile User
     get:
       summary: Profile
-      description: Get data profile user.
+      description: |
+        Retrieve the profile data of the currently logged-in user.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: getUserProfile
       security:
         - bearerAuth: []
@@ -531,7 +549,15 @@ paths:
         - User
     patch:
       summary: Update Profile
-      description: Update data profile user.
+      description: |
+        Update the profile data of the currently logged-in user.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: updateUserProfile
       requestBody:
         required: true
@@ -615,7 +641,7 @@ paths:
     summary: Media Endpoint
     get:
       summary: All Media
-      description: Get all data of media
+      description: Retrieve all media data. This action requires admin privileges.
       operationId: getMedia
       responses:
         '200':
@@ -641,7 +667,7 @@ paths:
         - Media
     post:
       summary: Upload File
-      description: Upload multiple files
+      description: Upload multiple files.
       operationId: postMedia
       requestBody:
         required: true
@@ -694,7 +720,7 @@ paths:
     summary: Courses
     get:
       summary: List courses
-      description: Get all data of courses
+      description: Retrieve all available courses.
       operationId: getCourses
       parameters:
         - name: name
@@ -763,7 +789,15 @@ paths:
         - Course
     post:
       summary: Create course
-      description: Create new course
+      description: |
+        Create a new course. This action can be performed by admins or mentors.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: postCourse
       requestBody:
         required: true
@@ -881,7 +915,7 @@ paths:
     summary: Course
     get:
       summary: Get course
-      description: Get a single course by ID
+      description: Retrieve details of a specific course identified by courseId.
       operationId: getCourse
       parameters:
         - $ref: '#/components/parameters/paramCourseID'
@@ -953,7 +987,15 @@ paths:
         - Course
     patch:
       summary: Update course
-      description: Update data course
+      description: |
+        Update a specific course identified by courseId. This action can only be performed by the mentor responsible for the course.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: updateCourse
       parameters:
         - $ref: '#/components/parameters/paramCourseID'
@@ -1088,7 +1130,7 @@ paths:
     summary: Chapters
     get:
       summary: List chapters
-      description: Get all data of chapters
+      description: Retrieve all chapters.
       operationId: getChapters
       parameters:
         - name: include
@@ -1140,7 +1182,15 @@ paths:
         - Chapter
     post:
       summary: Create chapter
-      description: Create new chapter
+      description: |
+        Create a new chapter within a course. This action can only be performed by the mentor responsible for the course.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: postChapter
       requestBody:
         required: true
@@ -1163,7 +1213,7 @@ paths:
     summary: Chapter
     get:
       summary: Get chapter
-      description: Get a single chapter by ID
+      description: Retrieve details of a specific chapter identified by chapterId.
       operationId: getChapter
       parameters:
         - $ref: '#/components/parameters/paramChapterID'
@@ -1202,7 +1252,15 @@ paths:
         - Chapter
     patch:
       summary: Update chapter
-      description: Update data chapter
+      description: |
+        Update a specific chapter within a course. This action can only be performed by the mentor responsible for the course.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: updateChapter
       parameters:
         - $ref: '#/components/parameters/paramChapterID'
@@ -1240,7 +1298,15 @@ paths:
         - Chapter
     delete:
       summary: Delete chapter
-      description: Delete data chapter
+      description: |
+        Delete a specific chapter from a course. This action can only be performed by the mentor responsible for the course.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: deleteChapter
       parameters:
         - $ref: '#/components/parameters/paramChapterID'
@@ -1270,7 +1336,7 @@ paths:
     summary: Lessons
     get:
       summary: List lessons
-      description: Get all data of lessons
+      description: Retrieve all lessons.
       operationId: getLessons
       parameters:
         - name: include
@@ -1326,7 +1392,15 @@ paths:
         - Lesson
     post:
       summary: Create lesson
-      description: Create new lesson
+      description: |
+        Create a new lesson within a chapter. This action can only be performed by the mentor responsible for the chapter.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: postLesson
       requestBody:
         required: true
@@ -1349,7 +1423,7 @@ paths:
     summary: Lesson
     get:
       summary: Get lesson
-      description: Get a single lesson by ID
+      description: Retrieve details of a specific lesson identified by lessonId.
       operationId: getLesson
       parameters:
         - $ref: '#/components/parameters/paramLessonID'
@@ -1392,7 +1466,15 @@ paths:
         - Lesson
     patch:
       summary: Update lesson
-      description: Update data lesson
+      description: |
+        Update a specific lesson within a chapter. This action can only be performed by the mentor responsible for the chapter.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: updateLesson
       parameters:
         - $ref: '#/components/parameters/paramLessonID'
@@ -1430,7 +1512,15 @@ paths:
         - Lesson
     delete:
       summary: Delete lesson
-      description: Delete data lesson
+      description: |
+        Delete a specific lesson from a chapter. This action can only be performed by the mentor responsible for the chapter.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: deleteLesson
       parameters:
         - $ref: '#/components/parameters/paramLessonID'
@@ -1460,7 +1550,15 @@ paths:
     summary: Course image
     post:
       summary: Create course image
-      description: Create new course image
+      description: |
+        Add an image to a course. This action can only be performed by the mentor responsible for the course.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: postCourseImage
       requestBody:
         required: true
@@ -1483,7 +1581,15 @@ paths:
     summary: Course image
     delete:
       summary: Delete course image
-      description: Delete data course image
+      description: |
+        Delete an image from a course. This action can only be performed by the mentor responsible for the course.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: deleteCourseImage
       parameters:
         - name: courseImageId
@@ -1520,7 +1626,7 @@ paths:
     summary: My course
     get:
       summary: List my courses
-      description: Get all data of my courses
+      description: Retrieve all courses that the currently logged-in student is enrolled in.
       operationId: getMyCourses
       parameters:
         - name: include
@@ -1567,7 +1673,15 @@ paths:
         - My Course
     post:
       summary: Create my course
-      description: Create new my course
+      description: |
+        Add a course to the list of courses the currently logged-in student is enrolled in.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: postMyCourse
       requestBody:
         required: true
@@ -1590,7 +1704,15 @@ paths:
     summary: Review
     post:
       summary: Create review
-      description: Create new review
+      description: |
+        Create a review for a specific course. This action can only be performed by students.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: postReview
       requestBody:
         required: true
@@ -1645,7 +1767,7 @@ paths:
     summary: Review
     get:
       summary: Get review
-      description: Get a single review by ID
+      description: Retrieve details of a specific review identified by reviewId.
       operationId: getReview
       parameters:
         - $ref: '#/components/parameters/paramReviewID'
@@ -1688,7 +1810,15 @@ paths:
         - Review
     patch:
       summary: Update review
-      description: Update data review
+      description: |
+        Update a specific review for a course. This action can only be performed by the student who created the review and is currently logged in.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: updateReview
       parameters:
         - $ref: '#/components/parameters/paramReviewID'
@@ -1750,7 +1880,15 @@ paths:
         - Review
     delete:
       summary: Delete review
-      description: Delete data review
+      description: |
+        Delete a specific review for a course. This action can only be performed by the student who created the review and is currently logged in.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: deleteReview
       parameters:
         - $ref: '#/components/parameters/paramReviewID'
@@ -1780,7 +1918,15 @@ paths:
     summary: Order
     post:
       summary: Create order
-      description: Create new order
+      description: |
+        Allow a student to join a course. If the course is premium, the student receives a response from Midtrans for payment. If the course is not premium, the student is automatically enrolled. A student cannot join a course if they are already enrolled.
+
+        **How to Add Bearer Tokens:**
+        Please add bearer token in Authorization header with schema "Bearer".
+        Example: 
+        ```
+        Authorization: Bearer <token_anda>
+        ```
       operationId: postOrder
       requestBody:
         required: true
