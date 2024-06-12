@@ -1,6 +1,16 @@
 # API Gateway Microservice
 API Gateway microservice adalah bagian dari arsitektur microservice yang dibangun untuk mengelola API aplikasi belajar online (kelas digital). Service ini digunakan untuk menggabungkan dan mengelola semua service dalam satu tempat.
 
+Anda dapat mengakses microservice ini di [URL Microservice](https://microservice.dimasoktafianto.my.id/).
+
+- [Service Media](https://github.com/DimasPondra/service-media): Repository GitHub untuk service media (Express JS).
+- [Service User](https://github.com/DimasPondra/service-user): Repository GitHub untuk service user (Express JS).
+- [Service Course](https://github.com/DimasPondra/service-course): Repository GitHub untuk service course (Laravel).
+- [Service Order](https://github.com/DimasPondra/service-order): Repository GitHub untuk service order (Laravel).
+
+- [Swagger Doc](https://microservice.dimasoktafianto.my.id/api-docs/): Gunakan tautan ini untuk mengakses dokumentasi API.
+
+
 ## Daftar Isi
 1. [Prasyarat](#prasyarat)
 2. [Teknologi yang Digunakan](#teknologi-yang-digunakan)
@@ -20,6 +30,7 @@ API Gateway microservice adalah bagian dari arsitektur microservice yang dibangu
 - Multer
 - Form Data
 - JSON Web Token
+- Swagger UI Express
 
 ## Fitur - fitur
 1. **Autentikasi Pengguna:**
